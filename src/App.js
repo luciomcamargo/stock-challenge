@@ -12,9 +12,9 @@ class App extends Component {
   }
 
   updateAppState = data => {
-    this.setState({
+    this.setState(state => ({
       data: data
-    });
+    }));
   };
 
   render() {

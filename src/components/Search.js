@@ -6,8 +6,7 @@ export class Search extends Component {
     super(props);
     this.state = {
       stock: '',
-      date: '',
-      data: null
+      date: ''
     };
   }
   handleStock = event => {
@@ -28,6 +27,7 @@ export class Search extends Component {
         const data = res.data.dataset_data.data;
 
         this.props.callbackprop(data);
+        console.log(data);
       });
 
     event.preventDefault();
@@ -45,14 +45,14 @@ export class Search extends Component {
             type='text'
             value={this.state.stock}
             onChange={this.handleStock}
-            placeholder='Stock Code'
+            placeholder='Stock Symbol'
           />
           <input
             style={{ marginLeft: '5px', marginRight: '5px' }}
             type='date'
             value={this.state.date}
             onChange={this.handleDate}
-            placeholder='Date'
+            placeholder='Start Date'
           />
           <button className='btn btn-primary'>Search</button>
         </form>
