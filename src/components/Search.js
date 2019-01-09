@@ -17,6 +17,7 @@ export class Search extends Component {
   };
 
   handleSubmit = event => {
+    event.preventDefault();
     const { stock, date } = this.state;
     axios
 
@@ -27,10 +28,7 @@ export class Search extends Component {
         const data = res.data.dataset_data.data;
 
         this.props.callbackprop(data);
-        console.log(data);
       });
-
-    event.preventDefault();
   };
 
   render() {
