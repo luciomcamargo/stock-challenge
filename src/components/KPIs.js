@@ -3,11 +3,15 @@ import React from 'react';
 function KPIs(props) {
   const mapPrices = props.data.map(price => price[1]);
   const lowestValue = Math.min(...mapPrices);
-  const highestValue = Math.max(...mapPrices);
-  const mdd = ((highestValue - lowestValue) / highestValue) * 100 + '%';
+  const indexOfLowestValue = mapPrices.indexOf(lowestValue);
+  const peakValue = Math.max(...mapPrices.slice(0, indexOfLowestValue));
+  const PL = peakValue - lowestValue;
+  const mdd = ((PL / peakValue) * 100).toFixed(2) + '%';
+
+  const netProfit = mapPrices[0] - mapPrices[mapPrices.length - 1];
   const roi =
-    ((mapPrices[mapPrices.length - 1] - mapPrices[0]) / mapPrices[0]) * 100 +
-    '%';
+    ((netProfit / mapPrices[mapPrices.length - 1]) * 100).toFixed(2) + '%';
+
   const style = {
     display: 'flex',
     justifyContent: 'space-around'

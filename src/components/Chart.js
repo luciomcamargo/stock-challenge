@@ -21,6 +21,11 @@ function Chart(props) {
         }
       }
     },
+    plotOptions: {
+      series: {
+        turboThreshold: 50000
+      }
+    },
     xAxis: {
       categories: props.data.map(dates => dates[0])
     },
