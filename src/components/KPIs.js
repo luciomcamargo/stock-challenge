@@ -4,7 +4,9 @@ function KPIs(props) {
   const mapPrices = props.data.map(price => price[1]);
   const lowestValue = Math.min(...mapPrices);
   const indexOfLowestValue = mapPrices.indexOf(lowestValue);
-  const peakValue = Math.max(...mapPrices.slice(0, indexOfLowestValue));
+  const peakValue = Math.max(
+    ...mapPrices.slice(indexOfLowestValue + 1, mapPrices.length)
+  );
   const PL = peakValue - lowestValue;
   const mdd = ((PL / peakValue) * 100).toFixed(2) + '%';
 
