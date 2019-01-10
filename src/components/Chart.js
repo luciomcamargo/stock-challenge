@@ -27,7 +27,7 @@ function Chart(props) {
       }
     },
     xAxis: {
-      categories: props.data.map(dates => dates[0])
+      categories: props.data.map(dates => dates[0]).reverse()
     },
     tooltip: {
       shared: true,
@@ -44,7 +44,7 @@ function Chart(props) {
       {
         showInLegend: false,
         name: 'Price',
-        data: props.data
+        data: props.data.reverse()
       }
     ]
   };
