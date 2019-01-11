@@ -1,38 +1,35 @@
 import React from 'react';
 
 function KPIs(props) {
-  var mapPrices = props.data.map(price => price[1]);
+  const mapPrices = props.data.map(price => price[1]).reverse();
+
   let lowestValue = Math.min(...mapPrices);
+
   let indexOfLowestValue = mapPrices.indexOf(lowestValue);
-  let peakValue = Math.max(
-    ...mapPrices.slice(indexOfLowestValue + 1, mapPrices.length)
-  );
+
+  let peakValue = Math.max(...mapPrices.slice(0, indexOfLowestValue));
   let PL = peakValue - lowestValue;
   let mdd = ((PL / peakValue) * 100).toFixed(2) + '%';
 
-  const netProfit = mapPrices[0] - mapPrices[mapPrices.length - 1];
-  const roi =
-    ((netProfit / mapPrices[mapPrices.length - 1]) * 100).toFixed(2) + '%';
+  const netProfit = mapPrices[mapPrices.length - 1] - mapPrices[0];
 
-  do {
-    let i = mapPrices.length - 1;
-    if (mapPrices[mapPrices.length - 1] !== lowestValue) {
-      i--;
-    } else {
-      lowestValue = mapPrices[i];
-      indexOfLowestValue = mapPrices.indexOf(lowestValue);
+  const roi = ((netProfit / mapPrices[0]) * 100).toFixed(2) + '%';
 
-      peakValue = Math.max(
-        ...mapPrices.slice(indexOfLowestValue - 1, mapPrices.length)
-      );
+  if (mapPrices[0] === lowestValue) {
+    const pairedArray = mapPrices.reduce(function(result, value, index, array) {
+      if (index % 2 === 0) result.push(array.slice(index, index + 2));
+      return result;
+    }, []);
 
-      PL = peakValue - lowestValue;
+    const dif = pairedArray.filter(el => el[0] > el[1]).flat();
+    const peakValue = Math.max(...dif);
+    const indexOfPeakValue = mapPrices.indexOf(peakValue);
+    const slicedArray = mapPrices.slice(indexOfPeakValue);
+    const trough = Math.min(...slicedArray);
+    PL = peakValue - trough;
+    mdd = ((PL / peakValue) * 100).toFixed(2) + '%';
+  }
 
-      mdd = ((PL / peakValue) * 100).toFixed(2) + '%';
-
-      break;
-    }
-  } while (mapPrices[mapPrices.length - 1] === lowestValue);
   const style = {
     display: 'flex',
     justifyContent: 'space-around'
