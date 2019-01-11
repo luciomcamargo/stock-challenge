@@ -21,11 +21,15 @@ function KPIs(props) {
       return result;
     }, []);
 
-    const dif = pairedArray.filter(el => el[0] > el[1]).flat();
-    const peakValue = Math.max(...dif);
-    const indexOfPeakValue = mapPrices.indexOf(peakValue);
-    const slicedArray = mapPrices.slice(indexOfPeakValue);
+    const dif = pairedArray.filter(el => el[0] > el[1]);
+    console.log(dif);
+
+    const indexOfDrop = mapPrices.indexOf(dif[0][0]);
+    const slicedArray = mapPrices.slice(indexOfDrop);
     const trough = Math.min(...slicedArray);
+    const indexOfTrough = slicedArray.indexOf(trough);
+    peakValue = Math.max(...slicedArray.slice(0, indexOfTrough));
+
     PL = peakValue - trough;
     mdd = ((PL / peakValue) * 100).toFixed(2) + '%';
   }
